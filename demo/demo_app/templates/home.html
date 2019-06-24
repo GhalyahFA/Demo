@@ -1,48 +1,29 @@
-
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-    <title>Pokemon API</title>
-    <style>
-    .jumbotron{
-    background: url("https://cdn.hipwallpaper.com/i/17/81/Z14T6L.png") no-repeat center center;
-}
-    </style>
-  </head>
-  <body>
+{% extends 'base.html' %}
+{% block content %}
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
-        <h1 class="display-3">Pokemon</h1>
-        <p class="lead">There are <strong>{{count}}</strong> pokemon!</p>
-
+        <h1 class="display-3">Pokémon</h1>
+        <p class="lead ml-2">There are <strong>{{count}}</strong> pokemon!</p>
       </div>
     </div>
 
 
     <div class="card-columns">
-      {% for result in results %}
-      <div class="card mx-auto border-dark mb-6 text-center">
+      {% for d in sorted_data %}
+      <div class="card mb-6 text-center">
       <div class="card-body">
-        <h4 class="card-title">{{result.name}}</h4>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href={{result.url}} class="card-link">Card link</a>
+        <h4 class="card-title">{{d.name}}</h4>
+         <form class="form" method="POST" action="{% url 'detail' %}">
+                {% csrf_token %}
+                <button type="submit" class="button btn btn-md btn-danger">
+                  Details
+                </button>
+                <input type="hidden" name="name" value="{{d.name}}">
+         </form>
+      
       </div>
     </div>
-          {% endfor %}
+      {% endfor %}
     </div>
 
-
-
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-
-  </body>
-</html>
+{% endblock content %}
